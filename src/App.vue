@@ -1,8 +1,13 @@
 <script setup>
 import {RouterView} from 'vue-router'
+import LoginDialog from "@/components/LoginDialog.vue";
+import {ref} from "vue";
+
+const showLoginCount = ref(false)
 </script>
 
 <template>
+  <LoginDialog :showLoginCount="showLoginCount"/>
   <header>
     <div>
       <el-menu onselectstart='return false'
@@ -27,7 +32,8 @@ import {RouterView} from 'vue-router'
         <div class="custom-menuitem">
           <el-menu-item class="menuitem-login">
             <div style="display: flex;align-items: center;">
-              <el-button style="margin-right: 20px;" size="large" type="primary">登录</el-button>
+              <el-button style="margin-right: 20px;" size="large" type="primary" @click="showLoginCount++">登录
+              </el-button>
             </div>
           </el-menu-item>
         </div>
@@ -52,6 +58,7 @@ import {RouterView} from 'vue-router'
   background-color: #D2E6FF62;
   top: 0;
 }
+
 .custom-menu .el-menu-item.is-active::before {
   content: '';
   position: absolute;
@@ -59,9 +66,10 @@ import {RouterView} from 'vue-router'
   height: 2px;
   background-color: #409EFF;
   top: 0;
-  transition:none;
+  transition: none;
 }
-.custom-menu .el-menu-item{
+
+.custom-menu .el-menu-item {
   transition: none;
 }
 </style>
