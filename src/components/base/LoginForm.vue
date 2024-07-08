@@ -12,16 +12,10 @@
     </el-form>
 </template>
 
-<script>
-export default {
-  name: "LoginForm",
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  }
-}
+<script setup>
+import {ref} from "vue";
+const username = ref('')
+const password = ref('')
 </script>
 
 <style scoped>

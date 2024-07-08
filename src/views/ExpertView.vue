@@ -5,9 +5,6 @@
 </template>
 
 <script>
-export default {
-  name: "ExpertView"
-}
 </script>
 
 <style scoped>
