@@ -40,10 +40,10 @@ import {RouterView} from 'vue-router'
 <style scoped>
 
 /*加粗字体*/
-.custom-menu el-menu-item {
+.custom-menu .el-menu-item {
   font-weight: bold;
 }
-.custom-menu .custom-menuitem el-menu-item:hover {
+.custom-menu .custom-menuitem .el-menu-item:hover {
   background-color: transparent;
 }
 </style>
