@@ -39,11 +39,29 @@ import {RouterView} from 'vue-router'
 
 <style scoped>
 
-/*加粗字体*/
 .custom-menu .el-menu-item {
   font-weight: bold;
 }
+
 .custom-menu .custom-menuitem .el-menu-item:hover {
   background-color: transparent;
+}
+
+.custom-menu .el-menu-item.is-active {
+  border-bottom: none;
+  background-color: #D2E6FF62;
+  top: 0;
+}
+.custom-menu .el-menu-item.is-active::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #409EFF;
+  top: 0;
+  transition:none;
+}
+.custom-menu .el-menu-item{
+  transition: none;
 }
 </style>
