@@ -1,11 +1,12 @@
 <template>
-  <LoginDialog :showLoginCount="showLoginCount" :isLogin="store.isLogin"/>
+  <AllDialog :showDialogHandler="showDialogHandler" :isLogin="store.isLogin"/>
   <div>
     <el-menu onselectstart='return false'
-             :router="true"
+             :router="false"
              default-active="/"
              class="custom-menu"
              mode="horizontal"
+             @select="handleSelect"
              :ellipsis="false">
       <el-menu-item style="pointer-events:none">
         <img
@@ -17,13 +18,16 @@
       <div style="margin-right: 10px;"/>
       <el-menu-item index="/">首页</el-menu-item>
       <el-menu-item index="/Guide">比赛指南</el-menu-item>
-      <el-menu-item index="/Registration" v-if="store.dsUser.userType===1||store.isLogin===false">我要报名</el-menu-item>
-      <el-menu-item index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">进入专家评审</el-menu-item>
+      <el-menu-item index="/Registration" v-if="store.dsUser.userType===1||store.isLogin===false">我要报名
+      </el-menu-item>
+      <el-menu-item index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">进入专家评审
+      </el-menu-item>
       <div style="flex-grow: 1;"/>
       <div class="custom-menuitem">
         <el-menu-item class="menuitem-login" v-if="store.isLogin!==true">
           <div style="display: flex;align-items: center;">
-            <el-button style="margin-right: 20px;" size="large" type="primary" @click="showLoginCount++">登录
+            <el-button style="margin-right: 20px;" size="large" type="primary"
+                       @click="openLoginDialog()">登录
             </el-button>
           </div>
         </el-menu-item>
@@ -32,8 +36,9 @@
             <el-avatar :size="40" :src="store.user.avatar"/>
             <el-text style="margin-left: 10px;">{{ store.dsUser.nickName }}</el-text>
           </template>
-          <el-menu-item @click="store.logout();showLoginCount=0">退出登录</el-menu-item>
-          <el-menu-item>修改密码</el-menu-item>
+          <el-menu-item @click="store.logout();showDialogHandler=0">退出登录</el-menu-item>
+          <el-menu-item @click="openUpdatePswDialog()">修改密码
+          </el-menu-item>
         </el-sub-menu>
       </div>
     </el-menu>
@@ -41,12 +46,31 @@
 </template>
 
 <script setup>
+import router from "@/router/index";
 import {RouterView} from 'vue-router'
-import LoginDialog from "@/components/LoginDialog.vue";
+import AllDialog from "@/components/AllDialog.vue";
 import {onMounted, ref} from "vue";
 import {userStore} from "@/store/user";
-const showLoginCount = ref(0)
+
+const showDialogHandler = ref(0)
 const store = userStore()
+
+function handleSelect(index, indexPath, item, routeResult) {
+  const needLogin = index === '/Registration' || index === '/Expert';
+  if (needLogin && !store.isLogin) {
+    router.push('/');
+    openLoginDialog();
+  } else {
+    router.push(index);
+  }
+}
+function openLoginDialog() {
+  return showDialogHandler.value = Math.random() * 10
+}
+function openUpdatePswDialog() {
+  return showDialogHandler.value = Math.random() * 10 + 10000
+}
+
 onMounted(() => {
   store.reloadByLocalStorage()
 })
