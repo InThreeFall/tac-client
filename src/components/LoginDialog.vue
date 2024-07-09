@@ -35,7 +35,7 @@ watch(() => props.isLogin, (val) => {
 
 </script>
 
-<style>
+<style scoped>
 /*圆角dialog*/
 .custom-dialog {
   border-radius: 10px;
