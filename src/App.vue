@@ -30,8 +30,8 @@ onMounted(() => {
         <div style="margin-right: 10px;"/>
         <el-menu-item index="/">首页</el-menu-item>
         <el-menu-item index="/Guide">比赛指南</el-menu-item>
-        <el-menu-item index="/Registration" v-if="store.dsUser.userType===1">我要报名</el-menu-item>
-        <el-menu-item index="/Expert" v-else-if="store.dsUser.userType===2">进入专家评审</el-menu-item>
+        <el-menu-item index="/Registration" v-if="store.dsUser.userType===1||store.isLogin===false">我要报名</el-menu-item>
+        <el-menu-item index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">进入专家评审</el-menu-item>
         <div style="flex-grow: 1;"/>
         <div class="custom-menuitem">
           <el-menu-item class="menuitem-login" v-if="store.isLogin!==true">
