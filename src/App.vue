@@ -9,7 +9,7 @@ import AppFooter from "@/views/app/AppFooter.vue"
     <AppHeader/>
   </header>
   <RouterView/>
-  <footer style="margin-top: 50px">
+  <footer>
     <AppFooter/>
   </footer>
 </template>
@@ -18,5 +18,4 @@ import AppFooter from "@/views/app/AppFooter.vue"
 #app{
   width: 100vw;
 }
-
 </style>
