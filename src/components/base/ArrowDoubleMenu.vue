@@ -47,7 +47,7 @@ function _onselect(index) {
 
 .left-menu-item {
   width: 50%;
-  right: -34px;
+  right: -27px;
   height: 51px;
   background: #DEDEDED3;
   clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
@@ -63,10 +63,10 @@ function _onselect(index) {
 
 .right-menu-item {
   width: 50%;
-  left: -34px;
+  left: -27px;
   height: 50px;
-  background: #DEDEDEFF;
-  clip-path: polygon(100% 0%,100% 100%, 4% 100%, 13% 50%, 4% 0%);
+  background: #DEDEDED3;
+  clip-path: polygon(100% 0%,100% 100%, 0% 100%, 10% 50%, 0% 0%);
 }
 
 .right-menu-item.is-active{

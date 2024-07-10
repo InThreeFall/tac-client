@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form :model="formData">
-      <el-form-item label="作品名称" required prop="workName">
+    <el-form :model="formData" ref="formData">
+      <el-form-item label="作品名称" required>
         <el-input v-model="formData.workName" placeholder="请输入作品名称"></el-input>
       </el-form-item>
 
@@ -66,29 +66,41 @@
 
       <!-- 参赛报名表文件上传 -->
       <el-form-item label="参赛报名表" required>
-        <UploadFileView
-            :onFileChanges="handleInformationChange"
-            :limit="1"
-            accept=".pdf"
-            :size="1024*1024*100"
-        ></UploadFileView>
+        <el-upload
+            class="upload-demo"
+            action="your-server-api-url"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :file-list="enrollmentFiles"
+        >
+          <el-button text><el-icon size="30"><Upload /></el-icon></el-button>
+        </el-upload>
       </el-form-item>
 
       <!-- 信息公示文件上传 -->
       <el-form-item label="信息公示" required>
-        <UploadFileView
-            :onFileChanges="handleEnrollmentChange"
-            :limit="1"
-            accept=".pdf"
-            :size="1024*1024*100"
-        ></UploadFileView>
+        <el-upload
+            class="upload-demo"
+            action="your-server-api-url"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :file-list="informationFiles"
+        >
+          <el-button text><el-icon size="30"><Upload /></el-icon></el-button>
+        </el-upload>
       </el-form-item>
 
       <el-form-item label="联系方式" required>
         <el-input v-model="formData.contactInfo" placeholder="团队负责人联系电话"></el-input>
       </el-form-item>
-
-      <el-button type="primary" style="margin-left: 50px" @click="submitForm">提交</el-button>
     </el-form>
   </div>
 
@@ -96,7 +108,9 @@
 
 <script setup>
 import {ref} from 'vue';
-import UploadFileView from "@/components/base/UploadFileView.vue";
+
+const enrollmentFiles = ref([]);
+const informationFiles = ref([]);
 
 const formData = ref({
   workName: '',
@@ -105,18 +119,24 @@ const formData = ref({
   teamName: '',
   qualifications: [],
   q2: '',
-  contactInfo: '',
-  enrollmentFile: null,
-  informationFile: null
+  contactInfo: ''
 });
 
-function submitForm(){
-  console.log(formData.value);
+function submitForm() {
+  // handle form submission here
 }
-function handleInformationChange(fileList){
-  formData.value.informationFile = fileList[0];
-}
-function handleEnrollmentChange(fileList){
-  formData.value.enrollmentFile = fileList[0];
-}
+
+// 文件上传的处理函数
+const handleRemove = (file, fileList) => {
+  console.log(file, fileList);
+};
+const handlePreview = (file) => {
+  console.log(file);
+};
+const beforeRemove = (file, fileList) => {
+  return this.$confirm(`确定移除 ${file.name}？`);
+};
+const handleExceed = (files, fileList) => {
+  this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${fileList.length + files.length} 个文件`);
+};
 </script>
