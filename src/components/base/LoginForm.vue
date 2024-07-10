@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="right" label-width="auto" class="login-form" :model="formData" ref="loginForm">
+  <el-form label-position="right" label-width="auto" class="login-form" :model="formData">
     <el-form-item label="用户名" required prop="username" :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
       <el-input v-model="formData.username" placeholder="请输入用户名"></el-input>
     </el-form-item>
