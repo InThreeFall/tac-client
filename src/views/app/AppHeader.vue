@@ -4,14 +4,13 @@
     <el-menu onselectstart='return false'
              :router="false"
              default-active="/"
-             class="custom-menu"
              mode="horizontal"
              @select="handleSelect"
              :ellipsis="false">
       <el-menu-item style="pointer-events:none">
         <img
             style="width: 300px"
-            src="public/组 4@2x(3).png"
+            src="/public/home_icon.png"
             alt="职业院校技能大赛评审平台"
         />
       </el-menu-item>
@@ -23,15 +22,15 @@
       <el-menu-item index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">进入专家评审
       </el-menu-item>
       <div style="flex-grow: 1;"/>
-      <div class="custom-menuitem">
-        <el-menu-item class="menuitem-login" v-if="store.isLogin!==true">
+      <div>
+        <el-menu-item  v-if="store.isLogin!==true">
           <div style="display: flex;align-items: center;">
             <el-button style="margin-right: 20px;" size="large" type="primary"
                        @click="openLoginDialog()">登录
             </el-button>
           </div>
         </el-menu-item>
-        <el-sub-menu class="menuitem-login" v-else>
+        <el-sub-menu v-else>
           <template #title>
             <el-avatar :size="40" :src="store.user.avatar"/>
             <el-text style="margin-left: 10px;">{{ store.dsUser.nickName }}</el-text>
@@ -78,31 +77,28 @@ onMounted(() => {
 
 <style scoped>
 
-.custom-menu .el-menu-item {
+.el-menu-item {
   font-weight: bold;
+  transition: none;
 }
 
-.custom-menu .custom-menuitem .el-menu-item:hover {
+.el-menu-item:hover {
   background-color: transparent;
 }
 
-.custom-menu .el-menu-item.is-active {
+.el-menu-item.is-active {
   border-bottom: none;
   background-color: #D2E6FF62;
   top: 0;
 }
 
-.custom-menu .el-menu-item.is-active::before {
+.el-menu-item.is-active::before {
   content: '';
   position: absolute;
   width: 100%;
   height: 2px;
   background-color: #409EFF;
   top: 0;
-  transition: none;
-}
-
-.custom-menu .el-menu-item {
   transition: none;
 }
 </style>
