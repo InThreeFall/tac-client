@@ -18,9 +18,9 @@
       </slot>
     </el-button>
     <template #file="{ file }" >
-      <div style="display: flex;flex-direction: row">
+      <div style="display: flex;flex-direction: row;margin-top: 25px;width: 110px">
         <div class="customFileSlot">{{file.name}}</div>
-        <el-button @click="remove(file)" type="info"  text :icon="CircleClose">
+        <el-button style="position: relative;right: 10px;bottom: 5px"  @click="remove(file)" type="info"  text :icon="CircleClose">
         </el-button>
       </div>
 
@@ -65,7 +65,7 @@ const handleExceed = (files, fileList) => {
 const handleFilesChange = (file, fileList) => {
   //检查文件大小
   if (file.size > props.size) {
-    files.value = fileList.filter(item => item.uid !== file.uid);
+    files.value = fileList;
     ElMessage.error(`文件大小不能超过${props.size / 1024 / 1024}MB`);
     return;
   }

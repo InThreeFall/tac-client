@@ -1,8 +1,9 @@
 <template>
     <div style="width: 100%">
       <el-menu
+          :active="_showIndex"
           style="width: 100%;"
-          default-active="left"
+          :default-active="showIndex"
           mode="horizontal"
           :ellipsis="false"
           @select="_onselect"
@@ -18,7 +19,13 @@
 </template>
 
 <script setup>
+import {ref, watch} from "vue";
+
 const props = defineProps({
+  showIndex: {
+    type: String,
+    required: true
+  },
   onselect:{
     type: Function,
     required: true
@@ -32,9 +39,14 @@ const props = defineProps({
     required: true
   }
 });
+const _showIndex = ref(props.showIndex)
+watch(() => props.showIndex, (val) => {
+  _showIndex.value = val
+})
 function _onselect(index) {
   props.onselect(index)
 }
+
 </script>
 
 <style scoped>
@@ -47,7 +59,7 @@ function _onselect(index) {
 
 .left-menu-item {
   width: 50%;
-  right: -27px;
+  right: -34px;
   height: 51px;
   background: #DEDEDED3;
   clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
@@ -63,10 +75,10 @@ function _onselect(index) {
 
 .right-menu-item {
   width: 50%;
-  left: -27px;
+  left: -34px;
   height: 50px;
-  background: #DEDEDED3;
-  clip-path: polygon(100% 0%,100% 100%, 0% 100%, 10% 50%, 0% 0%);
+  background: #DEDEDEFF;
+  clip-path: polygon(100% 0%,100% 100%, 4% 100%, 13% 50%, 4% 0%);
 }
 
 .right-menu-item.is-active{

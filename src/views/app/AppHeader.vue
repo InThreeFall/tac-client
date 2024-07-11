@@ -35,7 +35,7 @@
             <el-avatar :size="40" :src="store.user.avatar"/>
             <el-text style="margin-left: 10px;">{{ store.dsUser.nickName }}</el-text>
           </template>
-          <el-menu-item @click="store.logout();showDialogHandler=0">退出登录</el-menu-item>
+          <el-menu-item @click="logout">退出登录</el-menu-item>
           <el-menu-item @click="openUpdatePswDialog()">修改密码
           </el-menu-item>
         </el-sub-menu>
@@ -47,12 +47,15 @@
 <script setup>
 import router from "@/router/index";
 import {RouterView} from 'vue-router'
-import AllDialog from "@/components/AllDialog.vue";
+import AllDialog from "@/views/app/AllDialog.vue";
 import {onMounted, ref} from "vue";
 import {userStore} from "@/store/user";
+import {registrationStore} from "@/store/registration_form";
 
 const showDialogHandler = ref(0)
+const rStore = registrationStore()
 const store = userStore()
+
 
 function handleSelect(index, indexPath, item, routeResult) {
   const needLogin = index === '/Registration' || index === '/Expert';
@@ -69,7 +72,12 @@ function openLoginDialog() {
 function openUpdatePswDialog() {
   return showDialogHandler.value = Math.random() * 10 + 10000
 }
-
+function logout() {
+  rStore.clearRegistrationForm()
+  store.logout()
+  showDialogHandler.value=0
+  router.push('/')
+}
 onMounted(() => {
   store.reloadByLocalStorage()
 })

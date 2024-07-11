@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <el-form :model="formData" ref="formData">
-      <el-form-item label="作品名称" required>
+  <div style="display: flex;flex-direction: column;width: 50%">
+    <el-button
+       style= "justify-content: right;margin-bottom: 10px"
+        v-if="rStore.isHaveRegistrationForm===true" text type="primary"
+        @click="rStore.isHaveRegistrationForm = false">
+      编辑
+    </el-button>
+    <el-form :model="formData" :disabled="rStore.isHaveRegistrationForm">
+      <el-form-item label="作品名称" required prop="workName">
         <el-input v-model="formData.workName" placeholder="请输入作品名称"></el-input>
       </el-form-item>
 
@@ -32,10 +38,12 @@
               <div style="margin-top: 85px">
                 2、35岁以下（含）的教师不少于1人或思政课（二选一）；
               </div>
-              <el-radio-group v-model="formData.q2" style="flex-direction: column;margin-top: 10px;margin-bottom: 10px">
-                <el-radio :label="1">35岁以下(含)的教师不少于1人</el-radio>
-                <el-radio :label="2" style="margin-left: -176px">思政课</el-radio>
-              </el-radio-group>
+              <el-form-item label="">
+                <el-radio-group v-model="formData.q2" style="flex-direction: column;margin-top: 10px;margin-bottom: 10px">
+                  <el-radio label="1">35岁以下(含)的教师不少于1人</el-radio>
+                  <el-radio label="2" style="margin-left: -176px">思政课</el-radio>
+                </el-radio-group>
+              </el-form-item>
             </el-checkbox>
             <br>
             <el-checkbox label="3">
@@ -66,52 +74,48 @@
 
       <!-- 参赛报名表文件上传 -->
       <el-form-item label="参赛报名表" required>
-        <el-upload
-            class="upload-demo"
-            action="your-server-api-url"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="enrollmentFiles"
-        >
-          <el-button text><el-icon size="30"><Upload /></el-icon></el-button>
-        </el-upload>
+        <UploadFileView
+            ref="informationUploadDom"
+            :onFileChanges="handleInformationChange"
+            :limit="1"
+            accept=".pdf"
+            :size="1024*1024*100"
+        ></UploadFileView>
       </el-form-item>
 
       <!-- 信息公示文件上传 -->
       <el-form-item label="信息公示" required>
-        <el-upload
-            class="upload-demo"
-            action="your-server-api-url"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="informationFiles"
-        >
-          <el-button text><el-icon size="30"><Upload /></el-icon></el-button>
-        </el-upload>
+        <UploadFileView
+            ref="enrollmentUploadDom"
+            :onFileChanges="handleEnrollmentChange"
+            :limit="1"
+            accept=".pdf"
+            :size="1024*1024*100"
+        ></UploadFileView>
       </el-form-item>
 
       <el-form-item label="联系方式" required>
         <el-input v-model="formData.contactInfo" placeholder="团队负责人联系电话"></el-input>
       </el-form-item>
     </el-form>
+    <el-button type="primary" style="margin-top: 10px" @click="submitForm">下一步</el-button>
   </div>
 
 </template>
 
 <script setup>
-import {ref} from 'vue';
-
-const enrollmentFiles = ref([]);
-const informationFiles = ref([]);
-
+import {onMounted, ref, watch} from 'vue';
+import UploadFileView from "@/components/base/UploadFileView.vue";
+import {registrationStore} from "@/store/registration_form";
+const props = defineProps({
+  onSubmit: {
+    type: Function,
+    required: true
+  }
+});
+const rStore = registrationStore()
+const informationUploadDom = ref(null);
+const enrollmentUploadDom = ref(null);
 const formData = ref({
   workName: '',
   competitionGroup: '',
@@ -119,24 +123,52 @@ const formData = ref({
   teamName: '',
   qualifications: [],
   q2: '',
-  contactInfo: ''
+  contactInfo: '',
+  enrollmentFile: null,
+  informationFile: null
 });
 
 function submitForm() {
-  // handle form submission here
+  rStore.setRegistrationFormAndSave(formData.value);
+  props.onSubmit();
 }
 
-// 文件上传的处理函数
-const handleRemove = (file, fileList) => {
-  console.log(file, fileList);
-};
-const handlePreview = (file) => {
-  console.log(file);
-};
-const beforeRemove = (file, fileList) => {
-  return this.$confirm(`确定移除 ${file.name}？`);
-};
-const handleExceed = (files, fileList) => {
-  this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${fileList.length + files.length} 个文件`);
-};
+function handleInformationChange(fileList) {
+  formData.value.informationFile = fileList[0];
+}
+
+function handleEnrollmentChange(fileList) {
+  formData.value.enrollmentFile = fileList[0];
+}
+watch(() => formData.value.qualifications, (newVal) => {
+  formData.value.qualifications = newVal;
+  if (formData.value.qualifications.includes('2')) {
+    if (formData.value.q2 === ''){
+      formData.value.q2 = '1';
+    }
+  }else{
+    formData.value.q2 = '';
+  }
+}, {deep: true})
+watch(() => formData.value.q2, (newVal) => {
+  formData.value.q2 = newVal;
+  if (formData.value.q2 !== ''){
+    if(!formData.value.qualifications.includes('2')) {
+      formData.value.qualifications.push('2');
+    }
+  }
+})
+onMounted(() => {
+  rStore.loadRegistrationForm();
+  if (rStore.registrationForm) {
+    formData.value = rStore.registrationForm;
+    if (formData.value.informationFile) {
+      informationUploadDom.value.resetFiles([formData.value.informationFile]);
+    }
+    if (formData.value.enrollmentFile) {
+      enrollmentUploadDom.value.resetFiles([formData.value.enrollmentFile]);
+    }
+    console.log(formData.value)
+  }
+})
 </script>
