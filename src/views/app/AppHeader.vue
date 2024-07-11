@@ -23,7 +23,7 @@
       </el-menu-item>
       <div style="flex-grow: 1;"/>
       <div>
-        <el-menu-item  v-if="store.isLogin!==true">
+        <el-menu-item v-if="store.isLogin!==true">
           <div style="display: flex;align-items: center;">
             <el-button style="margin-right: 20px;" size="large" type="primary"
                        @click="openLoginDialog()">登录
@@ -66,20 +66,27 @@ function handleSelect(index, indexPath, item, routeResult) {
     router.push(index);
   }
 }
+
 function openLoginDialog() {
   return showDialogHandler.value = Math.random() * 10
 }
+
 function openUpdatePswDialog() {
   return showDialogHandler.value = Math.random() * 10 + 10000
 }
+
 function logout() {
   rStore.clearRegistrationForm()
-  store.logout()
-  showDialogHandler.value=0
+  store.clearLoginInfo()
+  showDialogHandler.value = 0
   router.push('/')
 }
+
 onMounted(() => {
   store.reloadByLocalStorage()
+  if (store.isLogin && store.dsUser.userType === 2 && store.dsUser.readFlag === 0) {
+    showDialogHandler.value = Math.random() * 10 + 20000
+  }
 })
 </script>
 

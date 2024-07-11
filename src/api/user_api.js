@@ -19,10 +19,10 @@ export function login(username, password) {
     return http.post('/login', {username, password}, config);
 }
 
-export function getInfo() {
+export function getInfo(token) {
     const config = {
         headers: {
-            'Authorization': localStorage.getItem('token'),
+            'Authorization': token,
         }
     }
     return http.get('/getInfo', config);
