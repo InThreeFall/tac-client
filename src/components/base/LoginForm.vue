@@ -16,10 +16,8 @@
 <script setup>
 import {ElMessage} from 'element-plus'
 import {ref} from "vue";
-
 import {login, getInfo} from "../../api/user_api.js";
 import {userStore} from "../../store/user.js";
-
 const store = userStore()
 
 const formData = ref({

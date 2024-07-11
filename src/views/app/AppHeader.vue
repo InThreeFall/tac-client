@@ -1,41 +1,44 @@
 <template>
-  <AllDialog :showDialogHandler="showDialogHandler" :isLogin="store.isLogin"/>
-  <div>
+  <AllDialog :isLogin="store.isLogin" ref="allDialogRef"/>
+  <div id="other">
     <el-menu onselectstart='return false'
-             :router="false"
-             default-active="/"
+             default-active="/Home"
              mode="horizontal"
-             @select="handleSelect"
-             :ellipsis="false">
+             :router="false"
+             :ellipsis="false"
+             @select="handleSelect">
       <el-menu-item style="pointer-events:none">
-        <img
-            style="width: 300px"
-            src="/public/home_icon.png"
-            alt="职业院校技能大赛评审平台"
-        />
+        <img style="width: 300px" src="/public/home_icon.png" alt="职业院校技能大赛评审平台"/>
       </el-menu-item>
+
       <div style="margin-right: 10px;"/>
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-menu-item index="/Guide">比赛指南</el-menu-item>
-      <el-menu-item index="/Registration" v-if="store.dsUser.userType===1||store.isLogin===false">我要报名
+
+      <el-menu-item id="Home" index="/Home">首页</el-menu-item>
+      <el-menu-item id="Guide" index="/Guide">比赛指南</el-menu-item>
+      <el-menu-item id="Registration" index="/Registration" v-if="store.dsUser.userType===1||store.isLogin===false">
+        我要报名
       </el-menu-item>
-      <el-menu-item index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">进入专家评审
+      <el-menu-item id="Expert" index="/Expert" v-if="store.dsUser.userType===2||store.isLogin===false">
+        进入专家评审
       </el-menu-item>
+
       <div style="flex-grow: 1;"/>
+
       <div>
-        <el-menu-item v-if="store.isLogin!==true">
+        <el-menu-item index="/" v-if="store.isLogin!==true">
           <div style="display: flex;align-items: center;">
             <el-button style="margin-right: 20px;" size="large" type="primary"
                        @click="openLoginDialog()">登录
             </el-button>
           </div>
         </el-menu-item>
-        <el-sub-menu v-else>
+
+        <el-sub-menu v-else index="/">
           <template #title>
             <el-avatar :size="40" :src="store.user.avatar"/>
             <el-text style="margin-left: 10px;">{{ store.dsUser.nickName }}</el-text>
           </template>
-          <el-menu-item @click="logout">退出登录</el-menu-item>
+          <el-menu-item @click="logout()">退出登录</el-menu-item>
           <el-menu-item @click="openUpdatePswDialog()">修改密码
           </el-menu-item>
         </el-sub-menu>
@@ -45,47 +48,70 @@
 </template>
 
 <script setup>
+import {onMounted, ref, watch} from "vue";
 import router from "@/router/index";
-import {RouterView} from 'vue-router'
 import AllDialog from "@/views/app/AllDialog.vue";
-import {onMounted, ref} from "vue";
 import {userStore} from "@/store/user";
 import {registrationStore} from "@/store/registration_form";
-
-const showDialogHandler = ref(0)
+import {routerStore} from "@/store/router_store";
+const allDialogRef = ref(null)
 const rStore = registrationStore()
+const routerStoreInstance = routerStore()
 const store = userStore()
 
 
-function handleSelect(index, indexPath, item, routeResult) {
+function handleSelect(index) {
+
   const needLogin = index === '/Registration' || index === '/Expert';
+  routerStoreInstance.switchIndex(index)
   if (needLogin && !store.isLogin) {
-    router.push('/');
+    //模拟点击菜单/Home
+    switchWithRouter("/Home")
     openLoginDialog();
   } else {
+    routerStoreInstance.switchIndex(index)
     router.push(index);
   }
 }
 
 function openLoginDialog() {
-  return showDialogHandler.value = Math.random() * 10
+  allDialogRef.value.setLoginDialogVisible(true)
 }
 
 function openUpdatePswDialog() {
-  return showDialogHandler.value = Math.random() * 10 + 10000
+  allDialogRef.value.setFixPswDialogVisible(true)
 }
 
 function logout() {
   rStore.clearRegistrationForm()
   store.clearLoginInfo()
-  showDialogHandler.value = 0
-  router.push('/')
+  allDialogRef.value.clearAllDialog();
+  switchWithRouter("/Home")
 }
+
+watch(() => store.isLogin, (newVal) => {
+  allDialogRef.value.clearAllDialog();
+  switchWithRouter("/Home")
+})
+function switchWithRouter(newVal) {
+  if (newVal === '/Home') {
+    document.getElementById('Home').click()
+  } else if (newVal === '/Registration') {
+    document.getElementById('Registration').click()
+  } else if (newVal === '/Expert') {
+    document.getElementById('Expert').click()
+  } else if (newVal === '/Guide') {
+    document.getElementById('Guide').click()
+  }
+}
+watch(() => routerStoreInstance.nowIndex, (newVal) => {
+  switchWithRouter(newVal)
+})
 
 onMounted(() => {
   store.reloadByLocalStorage()
   if (store.isLogin && store.dsUser.userType === 2 && store.dsUser.readFlag === 0) {
-    showDialogHandler.value = Math.random() * 10 + 20000
+    allDialogRef.value.setExpertDialogVisible(true)
   }
 })
 </script>
