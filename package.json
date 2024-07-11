@@ -2,13 +2,14 @@
   "name": "tac-client",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "cross-env NODE_ENV=production vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "element-plus": "^2.7.6",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
+    "cross-env": "^7.0.3",
     "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.8.0",
     "unocss": "^0.61.3",
