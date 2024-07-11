@@ -8,7 +8,7 @@
              :ellipsis="false"
              @select="handleSelect">
       <el-menu-item style="pointer-events:none">
-        <img style="width: 300px" src="/public/home_icon.png" alt="职业院校技能大赛评审平台"/>
+        <img style="width: 300px" src="/home_icon.png" alt="职业院校技能大赛评审平台"/>
       </el-menu-item>
 
       <div style="margin-right: 10px;"/>

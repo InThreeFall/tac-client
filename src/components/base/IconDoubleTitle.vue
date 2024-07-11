@@ -16,7 +16,7 @@ const props = defineProps({
   },
   iconSrc: {
     type: String,
-    default: '/public/title_icon.png'
+    default: '/title_icon.png'
   }
 })
 </script>

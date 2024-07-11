@@ -3,7 +3,7 @@
 <template>
   <div style="background: rgba(224,224,224,0.29);padding-bottom: 50px">
     <div style="height: 40px"></div>
-    <IconDoubleTitle title="通知公告" iconSrc="/public/title_icon.png"></IconDoubleTitle>
+    <IconDoubleTitle title="通知公告" iconSrc="/title_icon.png"></IconDoubleTitle>
     <ULGrid :data="ul"></ULGrid>
   </div>
 </template>

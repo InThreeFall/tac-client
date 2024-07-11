@@ -6,7 +6,7 @@
         <el-button round size="large">
           <template #default>
             <div style="color: #007cff;font-weight:900;font-size:16px" @click="goRegistrationView()">我要报名</div>
-            <el-image src="/public/矢量智能对象 拷贝@2x.png" style="margin-left: 5px;width: 15px;"></el-image>
+            <el-image src="./public/右箭头蓝.png" style="margin-left: 5px;width: 15px;"></el-image>
           </template>
         </el-button>
       </div>
@@ -28,7 +28,7 @@ function goRegistrationView() {
   position: relative;
   width: 100%;
   height: 500px;
-  background: url('/public/组 2.png') no-repeat center center;
+  background: url('/public/海报.png') no-repeat center center;
 }
 
 .title {

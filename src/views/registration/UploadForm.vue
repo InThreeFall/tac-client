@@ -250,7 +250,7 @@
                 :size="1024*1024*100"
             >
               <template #default>
-                <el-image src="/public/上传icon.png" style="width: 20px;height: 20px"></el-image>
+                <el-image src="/上传icon.png" style="width: 20px;height: 20px"></el-image>
                 <el-text size="small" type="info" style="margin-left: 5px">请上传100MB以内的文件</el-text>
               </template>
             </UploadFileView>
@@ -270,7 +270,7 @@
                 :size="1024*1024*100"
             >
               <template #default>
-                <el-image src="/public/上传icon.png" style="width: 20px;height: 20px"></el-image>
+                <el-image src="/上传icon.png" style="width: 20px;height: 20px"></el-image>
                 <el-text size="small" type="info" style="margin-left: 5px">请上传100MB以内的文件</el-text>
               </template>
             </UploadFileView>
@@ -290,7 +290,7 @@
                 :size="1024*1024*100"
             >
               <template #default>
-                <el-image src="/public/上传icon.png" style="width: 20px;height: 20px"></el-image>
+                <el-image src="/上传icon.png" style="width: 20px;height: 20px"></el-image>
                 <el-text size="small" type="info" style="margin-left: 5px">请上传100MB以内的文件</el-text>
               </template>
             </UploadFileView>
@@ -310,7 +310,7 @@
                 :size="1024*1024*100"
             >
               <template #default>
-                <el-image src="/public/上传icon.png" style="width: 20px;height: 20px"></el-image>
+                <el-image src="/上传icon.png" style="width: 20px;height: 20px"></el-image>
                 <el-text size="small" type="info" style="margin-left: 5px">请上传100MB以内的文件</el-text>
               </template>
             </UploadFileView>
@@ -330,7 +330,7 @@
                 :size="1024*1024*100"
             >
               <template #default>
-                <el-image src="/public/上传icon.png" style="width: 20px;height: 20px"></el-image>
+                <el-image src="/上传icon.png" style="width: 20px;height: 20px"></el-image>
                 <el-text size="small" type="info" style="margin-left: 5px">请上传100MB以内的文件</el-text>
               </template>
             </UploadFileView>
