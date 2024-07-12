@@ -6,7 +6,7 @@
         <el-button round size="large">
           <template #default>
             <div style="color: #007cff;font-weight:900;font-size:16px" @click="goRegistrationView()">我要报名</div>
-            <el-image src="./public/右箭头蓝.png" style="margin-left: 5px;width: 15px;"></el-image>
+            <el-image src="/右箭头蓝.png" style="margin-left: 5px;width: 15px;"></el-image>
           </template>
         </el-button>
       </div>

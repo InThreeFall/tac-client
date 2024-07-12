@@ -1,10 +1,10 @@
 <template>
   <div class="box">
-    <el-image src="/title_icon.png" style="width: 23px;height: 14px"></el-image>
+    <img src="/title_icon.png" style="width: 23px;height: 14px"></img>
     <div class="title">
       {{ title }}
     </div>
-    <el-image src="/title_icon.png" style="width: 23px;height: 14px"></el-image>
+    <img src="/title_icon.png" style="width: 23px;height: 14px"></img>
   </div>
 </template>
 
