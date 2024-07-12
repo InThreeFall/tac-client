@@ -35,6 +35,7 @@
 
         <el-sub-menu v-else index="/">
           <template #title>
+
             <el-avatar :size="40" :src="store.user.avatar"/>
             <el-text style="margin-left: 10px;">{{ store.dsUser.nickName }}</el-text>
           </template>
@@ -42,6 +43,7 @@
           <el-menu-item @click="openUpdatePswDialog()">修改密码
           </el-menu-item>
         </el-sub-menu>
+
       </div>
     </el-menu>
   </div>
@@ -65,7 +67,6 @@ function handleSelect(index) {
   const needLogin = index === '/Registration' || index === '/Expert';
   routerStoreInstance.switchIndex(index)
   if (needLogin && !store.isLogin) {
-    //模拟点击菜单/Home
     switchWithRouter("/Home")
     openLoginDialog();
   } else {

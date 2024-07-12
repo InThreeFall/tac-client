@@ -3,7 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import ExpertView from "@/views/ExpertView.vue";
 import GuideView from "@/views/GuideView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
-
+import ScoreView from "@/views/expert/ScoreView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_BASE_PATH),
@@ -32,6 +32,11 @@ const router = createRouter({
             path: '/Registration',
             name: 'registration',
             component: RegistrationView
+        },
+        {
+            path:'/Expert/Score',
+            name:'Score',
+            component:ScoreView
         }
     ]
 })

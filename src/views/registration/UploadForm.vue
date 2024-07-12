@@ -777,4 +777,5 @@ table {
 .upload-view {
   margin-top: 30px;
 }
+
 </style>
