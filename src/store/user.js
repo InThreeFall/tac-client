@@ -83,6 +83,11 @@ export const userStore = defineStore('userStore', () => {
         }
     }
 
+    function readCommitmentLetter(value){
+        dsUser.value.readFlag = value
+        localStorage.setItem('dsUser',JSON.stringify(dsUser.value))
+    }
+
     return {
         isLogin,
         token,
@@ -92,6 +97,7 @@ export const userStore = defineStore('userStore', () => {
         user,
         saveLoginInfo,
         clearLoginInfo,
-        reloadByLocalStorage
+        reloadByLocalStorage,
+        readCommitmentLetter
     }
 })

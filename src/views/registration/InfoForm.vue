@@ -128,9 +128,44 @@ const formData = ref({
   informationFile: null
 });
 
+function verifyForm() {
+  if (formData.value.workName === '') {
+    throw "作品名称不能为空"
+  }
+  if (formData.value.competitionGroup === '') {
+    throw '参赛组别不能为空';
+  }
+  if (formData.value.schoolName === '') {
+    throw '学校名称不能为空';
+  }
+  if (formData.value.teamName === '') {
+    throw '团队名称不能为空';
+  }
+  if (formData.value.qualifications.length === 0) {
+    throw '请至少选择一项资格要求';
+  }
+  if (formData.value.q2 === '' && formData.value.qualifications.includes('2')) {
+    throw '请填写资格要求2';
+  }
+  if (formData.value.contactInfo === '') {
+    throw '联系方式不能为空';
+  }
+  if (formData.value.enrollmentFile === null) {
+    throw '请上传参赛报名表';
+  }
+  if (formData.value.informationFile === null) {
+    throw '请上传信息公示';
+  }
+}
+
 function submitForm() {
-  rStore.setRegistrationFormAndSave(formData.value);
-  props.onSubmit();
+  try {
+    verifyForm();
+    rStore.setRegistrationFormAndSave(formData.value);
+    props.onSubmit();
+  } catch (e) {
+    ElMessage.error(e);
+  }
 }
 
 function handleInformationChange(fileList) {

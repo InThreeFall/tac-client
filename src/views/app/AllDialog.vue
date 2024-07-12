@@ -21,9 +21,8 @@
     </template>
     <FixPswForm/>
   </el-dialog>
-  <el-dialog v-model="_showExpertDialog" class="custom-dialog" align-center>
+  <el-dialog v-model="_showExpertDialog" class="custom-dialog" align-center @closed="onExpertDialogClose">
     <CommitmentLetter/>
-    <el-button @click="store.isFirstExpire=false">签署</el-button>
   </el-dialog>
 </template>
 
@@ -46,10 +45,19 @@ const props = defineProps({
     required: true,
   }
 })
+function onExpertDialogClose(){
+  console.log(_showExpertDialog.value)
+  if (store.dsUser.userType===2 && store.dsUser.readFlag === 0) {
+    setTimeout(() => {
+      _showExpertDialog.value = true
+    }, 1000)
+  }
+}
 watch(() => props.isLogin, (val) => {
   _isLogin.value = val
   if (val) {
     _showLoginDialog.value = false
+    _showExpertDialog.value = store.dsUser.userType === 2 && store.dsUser.readFlag === 0;
   } else {
     _showFixPswDialog.value = false
     _showExpertDialog.value = false
